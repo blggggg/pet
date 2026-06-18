@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>主页面 - 宠物管理系统</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f5f7fb;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #333;
+        }
+
+        .main-wrapper {
+            width: 1000px;
+            margin: 40px auto;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2d4f8b;
+        }
+
+        .logout-link {
+            color: #2d4f8b;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .panel {
+            background: #ffffff;
+            border: 1px solid #d9e2f0;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .panel-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 18px;
+            color: #1f3d6b;
+        }
+
+        .nav-list {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-card {
+            width: 280px;
+            min-height: 140px;
+            border: 1px solid #cfd9ea;
+            border-radius: 8px;
+            background: #f9fbff;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .nav-card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #234b87;
+            margin-bottom: 10px;
+        }
+
+        .nav-card-desc {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            min-height: 48px;
+            margin-bottom: 18px;
+        }
+
+        .nav-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #3b6db3;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .nav-btn:hover {
+            background: #2f5e9d;
+        }
+    </style>
+</head>
+<body>
+<div class="main-wrapper">
+    <div class="top-bar">
+        <div class="page-title">系统主页面</div>
+        <a class="logout-link" href="/logout">退出登录</a>
+    </div>
+
+    <div class="panel">
+        <div class="panel-title">功能导航</div>
+
+        <div class="nav-list">
+            <div class="nav-card">
+                <div class="nav-card-title">宠物管理</div>
+                <div class="nav-card-desc">
+                    进入宠物列表页面，可查看当前宠物数据，并为后续新增、编辑、删除功能预留入口。
+                </div>
+                <a class="nav-btn" href="/pet/list">进入页面</a>
+            </div>
+
+            <div class="nav-card">
+                <div class="nav-card-title">报告主页面</div>
+                <div class="nav-card-desc">
+                    进入 Report Data - Test Summary Level Rating 页面，当前为主页面演示版，已预留前后端扩展能力。
+                </div>
+                <a class="nav-btn" href="/report/test-summary-level-rating">进入页面</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

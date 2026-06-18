@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle}">宠物表单</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="page-container form-page">
+    <div class="top-bar">
+        <h2 th:text="${pageTitle}">新增宠物</h2>
+        <a href="/pets" class="btn btn-secondary">返回列表</a>
+    </div>
+
+    <div class="message error" th:if="${errorMsg}" th:text="${errorMsg}"></div>
+
+    <form action="/pets/save" method="post" class="form-panel">
+        <input type="hidden" name="id" th:value="${pet.id}">
+
+        <div class="form-group">
+            <label>宠物名称</label>
+            <input type="text" name="name" th:value="${pet.name}" required>
+        </div>
+
+        <div class="form-group">
+            <label>宠物类型</label>
+            <input type="text" name="type" th:value="${pet.type}" required>
+        </div>
+
+        <div class="form-group">
+            <label>年龄</label>
+            <input type="number" name="age" min="0" th:value="${pet.age}" required>
+        </div>
+
+        <div class="form-group">
+            <label>性别</label>
+            <select name="gender">
+                <option value="">请选择</option>
+                <option value="公" th:selected="${pet.gender == '公'}">公</option>
+                <option value="母" th:selected="${pet.gender == '母'}">母</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>品种</label>
+            <input type="text" name="breed" th:value="${pet.breed}">
+        </div>
+
+        <div class="form-group">
+            <label>主人姓名</label>
+            <input type="text" name="ownerName" th:value="${pet.ownerName}">
+        </div>
+
+        <div class="form-group">
+            <label>备注</label>
+            <textarea name="remark" rows="4" th:text="${pet.remark}"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary full-width">保存</button>
+    </form>
+</div>
+</body>
+</html>

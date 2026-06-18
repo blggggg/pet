@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>宠物列表</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, "Microsoft YaHei", sans-serif;
+            margin: 0;
+            color: #222;
+            background: linear-gradient(135deg, #f4f8ff 0%, #ffffff 45%, #f7fbff 100%);
+        }
+
+        a {
+            text-decoration: none;
+            color: #1f5aa6;
+        }
+
+        .page {
+            padding: 28px 40px 50px;
+        }
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 26px;
+        }
+
+        .toolbar-left a {
+            margin-right: 18px;
+            font-size: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid #1f5aa6;
+            background: #fff;
+            color: #1f5aa6;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #1f5aa6;
+            color: #fff;
+            box-shadow: 0 6px 16px rgba(31, 90, 166, 0.22);
+        }
+
+        .btn-light {
+            background: #fff;
+            color: #1f5aa6;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 22px;
+        }
+
+        .title-box h1 {
+            font-size: 42px;
+            margin: 0 0 8px;
+            letter-spacing: 1px;
+        }
+
+        .title-box p {
+            margin: 0;
+            color: #667085;
+            font-size: 15px;
+        }
+
+        .view-switch {
+            display: flex;
+            gap: 10px;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .summary-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 18px 20px;
+            border: 1px solid #e6edf7;
+            box-shadow: 0 10px 24px rgba(20, 60, 120, 0.06);
+        }
+
+        .summary-card .label {
+            color: #667085;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .summary-card .value {
+            font-size: 26px;
+            font-weight: bold;
+            color: #1f3f68;
+        }
+
+        .table-wrap {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #d8dee9;
+            box-shadow: 0 10px 28px rgba(20, 60, 120, 0.07);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border-bottom: 1px solid #e6edf7;
+            padding: 14px 16px;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        thead th {
+            background: #365b89;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        tbody tr:hover {
+            background: #f7fbff;
+        }
+
+        img.thumb {
+            width: 52px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+        }
+
+        .pet-name {
+            font-weight: bold;
+            color: #1f3f68;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .badge-dog {
+            background: #eaf3ff;
+            color: #1f5aa6;
+        }
+
+        .badge-cat {
+            background: #fff3df;
+            color: #b86600;
+        }
+
+        .badge-health {
+            background: #eafaf0;
+            color: #16803c;
+        }
+
+        .badge-normal {
+            background: #f2f4f7;
+            color: #475467;
+        }
+
+        .actions a {
+            margin-right: 8px;
+        }
+
+        .card-list {
+            display: none;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+        }
+
+        .pet-card {
+            background: #fff;
+            border: 1px solid #e6edf7;
+            border-radius: 18px;
+            padding: 18px;
+            box-shadow: 0 10px 28px rgba(20, 60, 120, 0.08);
+            transition: all 0.2s ease;
+        }
+
+        .pet-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 34px rgba(20, 60, 120, 0.14);
+        }
+
+        .card-top {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .card-img {
+            width: 76px;
+            height: 76px;
+            border-radius: 18px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .card-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1f3f68;
+            margin-bottom: 8px;
+        }
+
+        .card-meta {
+            color: #667085;
+            font-size: 14px;
+        }
+
+        .card-info {
+            border-top: 1px solid #eef2f7;
+            padding-top: 14px;
+            margin-top: 10px;
+            line-height: 28px;
+            font-size: 15px;
+        }
+
+        .card-info span {
+            color: #667085;
+        }
+
+        .card-actions {
+            margin-top: 16px;
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .card-actions a {
+            flex: 1;
+            text-align: center;
+            padding: 7px 0;
+            border-radius: 8px;
+            background: #f4f8ff;
+            color: #1f5aa6;
+            font-size: 14px;
+        }
+
+        .image-preview {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-preview img {
+            max-width: 70%;
+            max-height: 80%;
+            border-radius: 18px;
+            background: #fff;
+            padding: 8px;
+        }
+
+        /* 狗狗欢迎弹窗 */
+        .welcome-mask {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(4px);
+            background: rgba(15, 23, 42, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .welcome-card {
+            width: 430px;
+            background: #fff;
+            border-radius: 26px;
+            padding: 32px 28px 28px;
+            text-align: center;
+            box-shadow: 0 24px 60px rgba(20, 60, 120, 0.28);
+            position: relative;
+            animation: popUp 0.45s ease;
+        }
+
+        .welcome-dog {
+            width: 136px;
+            height: 136px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 6px solid #eef5ff;
+            box-shadow: 0 12px 30px rgba(31, 90, 166, 0.22);
+            margin-bottom: 18px;
+        }
+
+        .welcome-card h2 {
+            margin: 0 0 10px;
+            font-size: 28px;
+            color: #1f3f68;
+        }
+
+        .welcome-card p {
+            margin: 0 0 22px;
+            color: #667085;
+            font-size: 15px;
+            line-height: 24px;
+        }
+
+        .welcome-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .welcome-btn {
+            padding: 9px 18px;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .welcome-btn-primary {
+            background: #1f5aa6;
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(31, 90, 166, 0.24);
+        }
+
+        .welcome-btn-light {
+            background: #eef5ff;
+            color: #1f5aa6;
+        }
+
+        .welcome-close {
+            position: absolute;
+            right: 18px;
+            top: 14px;
+            border: none;
+            background: transparent;
+            font-size: 24px;
+            cursor: pointer;
+            color: #98a2b3;
+        }
+
+        @keyframes popUp {
+            from {
+                opacity: 0;
+                transform: scale(0.82) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .page {
+                padding: 22px 18px 40px;
+            }
+
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .header {
+                display: block;
+            }
+
+            .view-switch {
+                margin-top: 16px;
+            }
+
+            .table-wrap {
+                overflow-x: auto;
+            }
+
+            .welcome-card {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page">
+
+    <div class="toolbar">
+        <div class="toolbar-left">
+            <a href="/">返回主页面</a>
+            <a href="/logout">退出登录</a>
+        </div>
+        <a class="btn btn-primary" href="/pet/toAdd">+ 新增宠物</a>
+    </div>
+
+    <div class="header">
+        <div class="title-box">
+            <h1>宠物列表</h1>
+            <p>统一管理宠物档案、图片、主人信息和健康报告</p>
+        </div>
+
+        <div class="view-switch">
+            <button class="btn btn-primary" onclick="showTable()">表格视图</button>
+            <button class="btn btn-light" onclick="showCard()">卡片视图</button>
+        </div>
+    </div>
+
+    <div class="summary">
+        <div class="summary-card">
+            <div class="label">宠物总数</div>
+            <div class="value" th:text="${#lists.size(pets)}">2</div>
+        </div>
+        <div class="summary-card">
+            <div class="label">档案状态</div>
+            <div class="value">正常</div>
+        </div>
+        <div class="summary-card">
+            <div class="label">报告能力</div>
+            <div class="value">PDF</div>
+        </div>
+        <div class="summary-card">
+            <div class="label">图片管理</div>
+            <div class="value">支持</div>
+        </div>
+    </div>
+
+    <div id="tableView" class="table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>图片</th>
+                <th>名称</th>
+                <th>类型</th>
+                <th>年龄</th>
+                <th>性别</th>
+                <th>品种</th>
+                <th>主人</th>
+                <th>备注</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="pet : ${pets}">
+                <td th:text="${pet.id}">1</td>
+                <td>
+                    <img class="thumb"
+                         onclick="previewImage(this.src)"
+                         th:src="${#strings.isEmpty(pet.imageUrl) ? '/images/default-pet.png' : pet.imageUrl}"
+                         alt="pet">
+                </td>
+                <td class="pet-name" th:text="${pet.name}">凯凯</td>
+                <td>
+                    <span class="badge"
+                          th:classappend="${pet.type == '狗'} ? ' badge-dog' : (${pet.type == '猫'} ? ' badge-cat' : ' badge-normal')"
+                          th:text="${pet.type}">狗</span>
+                </td>
+                <td>
+                    <span th:text="${pet.age}">10</span> 岁
+                </td>
+                <td th:text="${pet.gender}">公</td>
+                <td th:text="${pet.breed}">柴犬</td>
+                <td th:text="${pet.owner}">张三</td>
+                <td>
+                    <span class="badge badge-health" th:text="${pet.remark}">已接种疫苗</span>
+                </td>
+                <td class="actions">
+                    <a th:href="@{'/pet/detail/' + ${pet.id}}">详情</a>
+                    |
+                    <a th:href="@{'/pet/toEdit/' + ${pet.id}}">编辑</a>
+                    |
+                    <a th:href="@{'/pet/toReport/' + ${pet.id}}">生成报告</a>
+                    |
+                    <a href="javascript:void(0)"
+                       th:if="${pet.name == '凯凯'}"
+                       onclick="openPetVideo('/videos/kaikai.mp4', '凯凯展示视频')">
+                        展示视频
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="cardView" class="card-list">
+        <div class="pet-card" th:each="pet : ${pets}">
+            <div class="card-top">
+                <img class="card-img"
+                     onclick="previewImage(this.src)"
+                     th:src="${#strings.isEmpty(pet.imageUrl) ? '/images/default-pet.png' : pet.imageUrl}"
+                     alt="pet">
+
+                <div>
+                    <div class="card-name" th:text="${pet.name}">凯凯</div>
+                    <div class="card-meta">
+                        <span th:text="${pet.type}">狗</span>
+                        /
+                        <span th:text="${pet.breed}">柴犬</span>
+                        /
+                        <span th:text="${pet.age}">10</span> 岁
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-info">
+                <div><span>性别：</span><b th:text="${pet.gender}">公</b></div>
+                <div><span>主人：</span><b th:text="${pet.owner}">张三</b></div>
+                <div>
+                    <span>状态：</span>
+                    <span class="badge badge-health" th:text="${pet.remark}">已接种疫苗</span>
+                </div>
+            </div>
+
+            <div class="card-actions">
+                <a th:href="@{'/pet/detail/' + ${pet.id}}">详情</a>
+                <a th:href="@{'/pet/toEdit/' + ${pet.id}}">编辑</a>
+                <a th:href="@{'/pet/toReport/' + ${pet.id}}">报告</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="imagePreview" class="image-preview" onclick="closePreview()">
+    <img id="previewImg" src="" alt="preview">
+</div>
+
+<!-- 视频播放弹窗 -->
+<div id="videoMask" class="video-mask">
+    <div class="video-card">
+        <button type="button" class="video-close" onclick="closePetVideo()">×</button>
+
+        <h2 id="videoTitle">宠物展示视频</h2>
+
+        <video id="petVideo" controls>
+            <source id="petVideoSource" src="" type="video/mp4">
+            当前浏览器不支持视频播放。
+        </video>
+    </div>
+</div>
+
+<div id="welcomeMask" class="welcome-mask">
+    <div class="welcome-card">
+        <button type="button" class="welcome-close" onclick="closeWelcome()">×</button>
+
+        <img class="welcome-dog"
+             src="/images/default-pet.png"
+             alt="welcome dog">
+
+        <h2>欢迎来到宠物档案中心</h2>
+
+        <p>
+            今天也要好好照顾你的宠物伙伴。<br>
+            你可以在这里管理宠物信息、查看档案并生成健康报告。
+        </p>
+
+        <div class="welcome-actions">
+            <button type="button" class="welcome-btn welcome-btn-primary" onclick="closeWelcome()">
+                开始管理
+            </button>
+            <a class="welcome-btn welcome-btn-light" href="/pet/toAdd">
+                新增宠物
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showTable() {
+        document.getElementById("tableView").style.display = "block";
+        document.getElementById("cardView").style.display = "none";
+    }
+
+    function showCard() {
+        document.getElementById("tableView").style.display = "none";
+        document.getElementById("cardView").style.display = "grid";
+    }
+
+    function previewImage(src) {
+        document.getElementById("previewImg").src = src;
+        document.getElementById("imagePreview").style.display = "flex";
+    }
+
+    function closePreview() {
+        document.getElementById("imagePreview").style.display = "none";
+    }
+
+    function closeWelcome() {
+        document.getElementById("welcomeMask").style.display = "none";
+    }
+
+    function openPetVideo(videoUrl, title) {
+        document.getElementById("videoTitle").innerText = title;
+
+        var video = document.getElementById("petVideo");
+        var source = document.getElementById("petVideoSource");
+
+        source.src = videoUrl;
+        video.load();
+
+        document.getElementById("videoMask").style.display = "flex";
+    }
+
+    function closePetVideo() {
+        var video = document.getElementById("petVideo");
+        video.pause();
+        video.currentTime = 0;
+
+        document.getElementById("videoMask").style.display = "none";
+    }
+</script>
+
+</body>
+</html>

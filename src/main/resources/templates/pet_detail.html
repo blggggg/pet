@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>宠物详情</title>
+    <style>
+        body{font-family:Arial,"Microsoft YaHei",sans-serif;margin:30px;color:#222}
+        a{text-decoration:none;color:#1f5aa6}
+        .wrap{max-width:980px;margin:0 auto}
+        .back{margin-bottom:18px}
+        .card{border:1px solid #d8dee9;border-radius:10px;padding:24px}
+        .grid{display:grid;grid-template-columns:280px 1fr;gap:26px}
+        .image-box img{width:280px;height:280px;object-fit:cover;border-radius:10px;border:1px solid #ddd}
+        .title{font-size:36px;margin:12px 0 24px}
+        .row{display:flex;padding:10px 0;border-bottom:1px dashed #eee}
+        .label{width:110px;color:#666}
+        .value{flex:1}
+        .action{margin-top:20px}
+        .btn{display:inline-block;padding:8px 16px;border-radius:4px;border:1px solid #1f5aa6;margin-right:10px}
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="back">
+        <a href="/pet/list">← 返回列表</a>
+    </div>
+
+    <div class="title">宠物详情</div>
+
+    <div class="card">
+        <div class="grid">
+            <div class="image-box">
+                <img th:src="${#strings.isEmpty(pet.imageUrl) ? '/images/default-pet.png' : pet.imageUrl}" alt="pet">
+            </div>
+            <div>
+                <div class="row"><div class="label">ID</div><div class="value" th:text="${pet.id}">1</div></div>
+                <div class="row"><div class="label">名称</div><div class="value" th:text="${pet.name}">凯凯</div></div>
+                <div class="row"><div class="label">类型</div><div class="value" th:text="${pet.type}">狗</div></div>
+                <div class="row"><div class="label">年龄</div><div class="value" th:text="${pet.age}">10</div></div>
+                <div class="row"><div class="label">性别</div><div class="value" th:text="${pet.gender}">公</div></div>
+                <div class="row"><div class="label">品种</div><div class="value" th:text="${pet.breed}">柴犬</div></div>
+                <div class="row"><div class="label">主人</div><div class="value" th:text="${pet.owner}">张三</div></div>
+                <div class="row"><div class="label">备注</div><div class="value" th:text="${pet.remark}">已接种疫苗</div></div>
+
+                <div class="action">
+                    <a class="btn" th:href="@{'/pet/toEdit/' + ${pet.id}}">编辑</a>
+                    <a class="btn" href="/pet/list">返回列表</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

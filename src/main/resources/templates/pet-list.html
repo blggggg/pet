@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>宠物列表 - 宠物管理系统</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 20px;
+            background: #f7f9fc;
+            color: #333;
+        }
+
+        .top-actions {
+            margin-bottom: 16px;
+        }
+
+        .top-actions a {
+            display: inline-block;
+            margin-right: 12px;
+            color: #2d4f8b;
+            text-decoration: none;
+        }
+
+        h2 {
+            color: #2d4f8b;
+            margin-bottom: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+        }
+
+        th, td {
+            border: 1px solid #d9e2f0;
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background: #5d87c1;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background: #f7fafe;
+        }
+    </style>
+</head>
+<body>
+<div class="top-actions">
+    <a href="/">返回主页面</a>
+    <a href="/logout">退出登录</a>
+</div>
+
+<h2>宠物列表</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>名称</th>
+        <th>类型</th>
+        <th>年龄</th>
+        <th>性别</th>
+        <th>品种</th>
+        <th>主人</th>
+        <th>备注</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pet : ${pets}">
+        <td th:text="${pet.id}">1</td>
+        <td th:text="${pet.name}">Tom</td>
+        <td th:text="${pet.type}">Cat</td>
+        <td th:text="${pet.age}">2</td>
+        <td th:text="${pet.gender}">Male</td>
+        <td th:text="${pet.breed}">British Shorthair</td>
+        <td th:text="${pet.ownerName}">Alice</td>
+        <td th:text="${pet.remark}">Healthy</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageData.pageTitle}">Report Data - Test Summary Level Rating</title>
+    <link rel="stylesheet" href="/css/report-summary-page.css">
+</head>
+<body class="bv-page-body">
+<div class="bv-page">
+
+    <div class="bv-header">
+        <div class="bv-header-left">
+            <div class="bv-logo-box">
+                <div class="bv-logo-text">BV</div>
+            </div>
+            <div class="bv-system-title">
+                <div class="bv-brand-red">Bureau Veritas Consumer Products Services</div>
+                <div class="bv-brand-blue">
+                    BVLab NG System
+                    <span class="bv-system-date" th:text="${pageData.systemDate}">20260324</span>
+                </div>
+            </div>
+        </div>
+        <div class="bv-header-right">
+            <span>Login As: </span>
+            <span class="bv-login-user" th:text="${pageData.loginUser}">MEENEP02 Z</span>
+            <a href="javascript:void(0)" class="bv-link">Change Password</a>
+        </div>
+    </div>
+
+    <div class="bv-nav">
+        <a href="javascript:void(0)">Sample</a>
+        <a href="javascript:void(0)">BVLab</a>
+        <a href="javascript:void(0)">Test Assignment</a>
+        <a href="javascript:void(0)">Resulting</a>
+        <a href="javascript:void(0)">Tracking</a>
+        <a href="javascript:void(0)">ARG</a>
+        <a href="javascript:void(0)">BVOS</a>
+        <a href="javascript:void(0)">Query</a>
+        <a href="javascript:void(0)">Report</a>
+        <a href="javascript:void(0)">AIS</a>
+        <a href="javascript:void(0)">Directory</a>
+        <a href="javascript:void(0)">System Logout</a>
+    </div>
+
+    <div class="bv-content">
+        <h2 class="bv-page-title" th:text="${pageData.pageTitle}">Report Data - Test Summary Level Rating</h2>
+
+        <div class="bv-top-section">
+            <div class="bv-query-panel">
+                <div class="bv-form-row">
+                    <label>Master Sample #:</label>
+                    <input type="text" th:value="${pageData.masterSampleNo}" />
+                    <button type="button" class="bv-mini-btn">Search (Alt+F)</button>
+                </div>
+
+                <div class="bv-form-row">
+                    <label>Sample No:</label>
+                    <select>
+                        <option th:each="item : ${pageData.sampleNoOptions}"
+                                th:value="${item}"
+                                th:text="${item}"
+                                th:selected="${item == pageData.currentSampleNo}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="bv-form-row bv-protocol-row">
+                    <label>Protocol:</label>
+                    <select size="6" class="bv-protocol-select">
+                        <option th:each="item : ${pageData.protocolOptions}"
+                                th:value="${item}"
+                                th:text="${item}"
+                                th:selected="${item == pageData.selectedProtocol}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="bv-form-row bv-checkbox-row">
+                    <label>Include NA :</label>
+                    <input type="checkbox" th:checked="${pageData.includeNa}" />
+                </div>
+            </div>
+
+            <div class="bv-stat-panel">
+                <table class="bv-stat-table">
+                    <tbody>
+                    <tr th:each="stat : ${pageData.stats}">
+                        <td th:classappend="${stat.danger} ? ' danger-text' : ''"
+                            th:text="${stat.label}">
+                            Number of Assigned Tests
+                        </td>
+                        <td class="bv-stat-value"
+                            th:classappend="${stat.danger} ? ' danger-text' : ''"
+                            th:text="${stat.value}">
+                            0
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="bv-action-row">
+            <div class="bv-action-left">
+                <button type="button" class="bv-mini-btn">Populate Test Property for selected Test (Alt+1)</button>
+                <button type="button" class="bv-mini-btn">Populate Test to BVLab (Alt+3)</button>
+                <button type="button" class="bv-mini-btn disabled-btn">Remove (Alt+R)</button>
+                <button type="button" class="bv-mini-btn disabled-btn">Add (Alt+A)</button>
+                <button type="button" class="bv-mini-btn disabled-btn">Copy Test to another Samples (Alt+2)</button>
+            </div>
+            <div class="bv-action-right">
+                <select class="bv-screen-select">
+                    <option th:each="item : ${pageData.screenOptions}" th:text="${item}"></option>
+                </select>
+                <button type="button" class="bv-mini-btn">Save (Alt+S)</button>
+            </div>
+        </div>
+
+        <div class="bv-table-title" th:text="'Sample No: ' + ${pageData.currentSampleNo}">
+            Sample No: 52260790036B (52260790047)
+        </div>
+
+        <table class="bv-main-table">
+            <thead>
+            <tr>
+                <th class="w-check"></th>
+                <th class="w-small">NA</th>
+                <th class="w-small">NT</th>
+                <th class="w-small">NR</th>
+                <th class="w-property">TEST PROPERTY</th>
+                <th class="w-criteria">CRITERIA</th>
+                <th class="w-rating">RATING</th>
+                <th class="w-order">Order</th>
+                <th class="w-actual">Actual # of Test</th>
+                <th class="w-btn"></th>
+                <th class="w-btn"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${pageData.rows}">
+                <td><input type="checkbox" th:checked="${row.checked}" /></td>
+                <td><input type="checkbox" th:checked="${row.na}" /></td>
+                <td><input type="checkbox" th:checked="${row.nt}" /></td>
+                <td><input type="checkbox" th:checked="${row.nr}" /></td>
+                <td>
+                    <input type="text" class="bv-input-property" th:value="${row.testProperty}" />
+                </td>
+                <td>
+                    <textarea class="bv-textarea-criteria" rows="2" th:text="${row.criteria}"></textarea>
+                </td>
+                <td>
+                    <select class="bv-rating-select">
+                        <option th:each="ratingItem : ${row.ratingOptions}"
+                                th:value="${ratingItem}"
+                                th:text="${ratingItem}"
+                                th:selected="${ratingItem == row.rating}">
+                        </option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" class="bv-input-order" th:value="${row.orderNo}" />
+                </td>
+                <td>
+                    <input type="text" class="bv-input-actual" th:value="${row.actualTestCount}" />
+                </td>
+                <td>
+                    <button type="button" class="bv-grid-btn" th:text="${row.remarkButtonText}">RMK</button>
+                </td>
+                <td>
+                    <button type="button" class="bv-grid-btn" th:text="${row.ufpButtonText}">UFP</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="/js/report-summary-page.js"></script>
+</body>
+</html>
