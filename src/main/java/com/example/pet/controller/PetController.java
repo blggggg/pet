@@ -1,6 +1,6 @@
 package com.example.pet.controller;
 
-import com.example.petdemo.model.Pet;
+import com.example.pet.model.Pet;
 import com.example.pet.service.PetService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

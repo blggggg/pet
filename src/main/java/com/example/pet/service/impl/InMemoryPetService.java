@@ -2,7 +2,7 @@ package com.example.pet.service.impl;
 
 
 import com.example.pet.service.PetService;
-import com.example.petdemo.model.Pet;
+import com.example.pet.model.Pet;
 import com.lowagie.text.*;
 import com.lowagie.text.Font;
 import com.lowagie.text.Image;
@@ -17,7 +17,6 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
