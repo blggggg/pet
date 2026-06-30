@@ -1,8 +1,9 @@
 package com.example.pet.service.impl;
 
 
+import com.example.pet.entity.Pet;
+import com.example.pet.mapper.PetMapper;
 import com.example.pet.service.PetService;
-import com.example.pet.model.Pet;
 import com.lowagie.text.*;
 import com.lowagie.text.Font;
 import com.lowagie.text.Image;
@@ -10,6 +11,7 @@ import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,9 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class InMemoryPetService implements PetService {
+
+    @Autowired
+    private PetMapper petMapper;
 
     private final Map<Long, Pet> storage = new LinkedHashMap<>();
     private final AtomicLong idGen = new AtomicLong(100);
@@ -56,7 +61,7 @@ public class InMemoryPetService implements PetService {
 
     @Override
     public List<Pet> list() {
-        return new ArrayList<>(storage.values());
+        return petMapper.list();
     }
 
     @Override
@@ -204,6 +209,7 @@ public class InMemoryPetService implements PetService {
         }
         return "ok";
     }
+
     private void addCell(PdfPTable table, String text, Font font, boolean header) {
         PdfPCell cell = new PdfPCell(new Phrase(text == null ? "" : text, font));
 

@@ -1,6 +1,7 @@
 package com.example.pet.service;
 
-import com.example.pet.model.Pet;
+
+import com.example.pet.entity.Pet;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;

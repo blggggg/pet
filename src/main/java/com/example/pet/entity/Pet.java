@@ -1,42 +1,18 @@
 package com.example.pet.entity;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import org.springframework.stereotype.Component;
 
-@Entity
-@Table(name = "pet")
+@Component
 public class Pet {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "name", nullable = false, length = 100)
     private String name;
-
-    @Column(name = "type", nullable = false, length = 50)
     private String type;
-
-    @Column(name = "age", nullable = false)
     private Integer age;
-
-    @Column(name = "gender", length = 20)
     private String gender;
-
-    @Column(name = "breed", length = 100)
     private String breed;
-
-    @Column(name = "owner_name", length = 100)
-    private String ownerName;
-
-    @Column(name = "remark", length = 500)
+    private String owner;
     private String remark;
-
-    @Column(name = "created_time", nullable = false)
-    private LocalDateTime createdTime;
-
-    @Column(name = "updated_time", nullable = false)
-    private LocalDateTime updatedTime;
+    private String imageUrl;
 
     public Long getId() {
         return id;
@@ -86,12 +62,12 @@ public class Pet {
         this.breed = breed;
     }
 
-    public String getOwnerName() {
-        return ownerName;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setOwnerName(String ownerName) {
-        this.ownerName = ownerName;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public String getRemark() {
@@ -102,19 +78,11 @@ public class Pet {
         this.remark = remark;
     }
 
-    public LocalDateTime getCreatedTime() {
-        return createdTime;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setCreatedTime(LocalDateTime createdTime) {
-        this.createdTime = createdTime;
-    }
-
-    public LocalDateTime getUpdatedTime() {
-        return updatedTime;
-    }
-
-    public void setUpdatedTime(LocalDateTime updatedTime) {
-        this.updatedTime = updatedTime;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
