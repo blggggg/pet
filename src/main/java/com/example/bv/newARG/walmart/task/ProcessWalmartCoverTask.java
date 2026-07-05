@@ -18,6 +18,9 @@ public class ProcessWalmartCoverTask {
         this.supplementaryDataTask = supplementaryDataTask;
     }
 
+    public ProcessWalmartCoverTask() {
+    }
+
     public Map<String, Object> execute(WalmartReportContext context, List<Map<String, String>> testList) {
         WalmartComplianceEvaluation evaluation = complianceEvaluationTask.execute(context, testList);
         WalmartSupplementaryData supplementaryData = supplementaryDataTask.execute(context);
