@@ -102,6 +102,7 @@ public class Walmart {
 
     public static String getPackagingRatingForProtocol16() {
         // TODO 这里替换成你项目里 protocol 16 的真实计算逻辑
+        
         String value = getRating("PACKAGING_RATING_P16");
 
         if (isEmpty(value)) {
